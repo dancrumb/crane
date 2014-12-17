@@ -659,9 +659,8 @@ func (c *container) getTaggedImageName(tag string) {
 			imageName = strings.Join(imageParts, ":")
 		}
 	}
-	return imageName;
+	return imageName
 }
-	
 
 // Pull image for container
 func (c *container) pullImage() {
