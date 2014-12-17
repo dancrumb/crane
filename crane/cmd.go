@@ -69,7 +69,7 @@ func handleCmd() {
 		Long: `
 lift will provision missing images and run all targeted containers.`,
 		Run: configCommand(func(config Config) {
-			config.TargetedContainers().lift(options.recreate, options.nocache)
+			config.TargetedContainers().lift(options.recreate, options.nocache, options.tag)
 		}, false),
 	}
 
@@ -80,7 +80,7 @@ lift will provision missing images and run all targeted containers.`,
 provision will use specified Dockerfiles to build all targeted images.
 If no Dockerfile is given, it will pull the image(s) from the given registry.`,
 		Run: configCommand(func(config Config) {
-			config.TargetedContainers().provision(options.nocache)
+			config.TargetedContainers().provision(options.nocache, options.tag)
 		}, true),
 	}
 
