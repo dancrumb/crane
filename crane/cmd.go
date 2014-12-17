@@ -11,7 +11,7 @@ import (
 type Options struct {
 	verbose             bool
 	recreate            bool
-	latest              bool
+	tag                 string
 	nocache             bool
 	notrunc             bool
 	forceRm             bool
@@ -27,8 +27,8 @@ type Options struct {
 
 var options Options
 
-func useLatest() bool {
-	return options.latest
+func getTag() string {
+	return options.tag
 }
 
 func isVerbose() bool {
@@ -161,7 +161,7 @@ If no Dockerfile is given, it will pull the image(s) from the given registry.`,
 		Short: "Push the containers",
 		Long:  `push will call docker push for all targeted containers.`,
 		Run: configCommand(func(config Config) {
-			config.TargetedContainers().push(options.latest)
+			config.TargetedContainers().push(options.tag)
 		}, true),
 	}
 
@@ -237,7 +237,7 @@ See the corresponding docker commands for more information.`,
 
 	cmdCreate.Flags().BoolVarP(&options.recreate, "recreate", "r", false, "Recreate containers (force-remove containers first)")
 
-	cmdPush.Flags().BoolVarP(&options.latest, "latest", "l", false, "Push the 'latest' tag")
+	cmdPush.Flags().StringVarP(&options.tag, "tag", "t", false, "Push to a specific tag (overriding any set in the config file)")
 
 	cmdRun.Flags().BoolVarP(&options.recreate, "recreate", "r", false, "Recreate containers (force-remove containers first)")
 

@@ -34,7 +34,7 @@ type Container interface {
 	Unpause()
 	Rm(force bool)
 	Logs(follow bool, tail string) (stdout, stderr io.Reader)
-	Push(latest bool)
+	Push(tag string)
 }
 
 type container struct {
@@ -639,15 +639,13 @@ func (c *container) Logs(follow bool, tail string) (stdout, stderr io.Reader) {
 }
 
 // Push container
-func (c *container) Push(latest bool) {
+func (c *container) Push(tag string) {
 	imageName := c.Image()
 	if len(imageName) > 0 {
-		if latest {
+		if len(tag) > 0 {
 			imageParts := strings.Split(imageName, ":")
-			if len(imageParts) == 2 {
-				imageParts[1] = "latest"
-				imageName = strings.Join(imageParts, ":")
-			}
+			imageParts[1] = tag
+			imageName = strings.Join(imageParts, ":")
 		}
 		fmt.Printf("Pushing image %s ... ", imageName)
 		args := []string{"push", imageName}
